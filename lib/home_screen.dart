@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:masoud_oil_admin/update_price.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import 'data_model.dart';
 
@@ -138,6 +140,16 @@ class _HomeScreenState extends State<HomeScreen> {
               icon: const Icon(Icons.refresh),
               onPressed: _getData,
             ),
+          TextButton(
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return const UpdatePriceScreen();
+                }));
+              },
+              child: const Text(
+                'تغيير السعر',
+                style: TextStyle(color: Colors.black),
+              )),
         ],
         centerTitle: true,
       ),
@@ -187,43 +199,89 @@ class _HomeScreenState extends State<HomeScreen> {
                                 style: const TextStyle(
                                     fontSize: 20, fontWeight: FontWeight.bold),
                               ),
-                              Text(
-                                'رقم الموبايل: ${_data[index].phone}',
-                                style: const TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.bold),
+                              Row(
+                                children: [
+                                  Text(
+                                    'رقم الموبايل: ',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headlineSmall!
+                                        .copyWith(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
+                                      launchUrlString(
+                                          'tel:${_data[index].phone}');
+                                    },
+                                    child: Text(
+                                      '${_data[index].phone}',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headlineSmall!
+                                          .copyWith(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.blue.shade800,
+                                          ),
+                                    ),
+                                  ),
+                                ],
                               ),
                               Text(
                                 'الوقت والتاريخ: ${_data[index].date!.substring(0, 16).trim()}',
-                                style: const TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.bold),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headlineSmall!
+                                    .copyWith(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                               ),
                               Text(
                                 'نوع الزيت: ${_data[index].oilType}',
-                                style: const TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.bold),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headlineSmall!
+                                    .copyWith(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                               ),
                               Text(
                                 ' يحتاج فلتر: ${_data[index].carType != '' ? 'نعم' : 'لا'}',
-                                style: const TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.bold),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headlineSmall!
+                                    .copyWith(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                               ),
                               if (_data[index].carType != '')
                                 Text(
                                   'نوع العربية: ${_data[index].carType}',
-                                  style: const TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headlineSmall!
+                                      .copyWith(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                 ),
-                              Text(
-                                'العنوان: ${_data[index].address}',
-                                style: const TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.bold),
-                              ),
-                              Text(
-                                'الملاحظات: ${_data[index].notes}',
-                                style: const TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.bold),
-                              ),
+                              if (_data[index].notes != '')
+                                Text(
+                                  'الملاحظات: ${_data[index].notes}',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headlineSmall!
+                                      .copyWith(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                ),
                               MaterialButton(
                                 onPressed: () {
                                   _openLocation(
@@ -239,7 +297,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 },
                                 color: Colors.red,
                                 child: const Text(
-                                  'مسح البيانات',
+                                  'مسح الطلب',
                                   style: TextStyle(color: Colors.white),
                                 ),
                               ),
